@@ -81,8 +81,13 @@ const incomeSum = document.querySelector(".summary__value--in");
 const debitSum = document.querySelector(".summary__value--out");
 const interestSum = document.querySelector(".summary__value--interest");
 const movContainer = document.querySelector(".movements");
+const recipient = document.querySelector(".form__input--to");
+const xferAmount = document.querySelector(".form__input--amount");
+const transferBtn = document.querySelector(".form__btn--transfer");
 
 let currentAccount;
+
+// Section: Login Verification
 
 // Sign-in Event Listener
 loginBtn.addEventListener("click", function (e) {
@@ -139,6 +144,8 @@ function updateUI(curAcc) {
 function calcBalance(acc) {
   const calcBalance = acc.movements.reduce((acc, curVal) => acc + curVal);
   balSummary.textContent = `₱${calcBalance}`;
+
+  acc.balance = calcBalance;
 }
 
 // Calculate Summary
@@ -167,9 +174,6 @@ function displayMov(acc) {
 
   const movs = acc.movements;
 
-  console.log(acc);
-  console.log(movs);
-
   movs.forEach((trans, i) => {
     const type = trans > 0 ? "deposit" : "withdrawal";
 
@@ -183,3 +187,33 @@ function displayMov(acc) {
     movContainer.insertAdjacentHTML("afterbegin", html);
   });
 }
+
+// Section: Transfer Money
+
+// 1. Validate if transfer to account exists.
+transferBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  const receiver = accounts.find((acc) => acc.userID === recipient.value);
+  const amount = +xferAmount.value;
+
+  // This validates if amount is less than zero, current account has enough funds to transfer, and transfer to account exist and is not equal to the current account.
+  if (
+    amount > 0 &&
+    currentAccount.balance >= amount &&
+    receiver &&
+    receiver?.userID !== currentAccount.userID
+  ) {
+    currentAccount.movements.push(-amount);
+    receiver.movements.push(amount);
+
+    updateUI(currentAccount);
+  } else {
+    alert(
+      "Transaction Error: Either balance is not enough or receiver account is not valid."
+    );
+  }
+
+  recipient.value = xferAmount.value = "";
+  xferAmount.blur();
+});

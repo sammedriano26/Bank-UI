@@ -402,7 +402,7 @@ function init() {
   labelWelcome.textContent = "Login to get started";
 }
 
-// Getting the overall Balance of the account using map.
+// Getting the overall   of the account using map.
 const overAllBalance = accounts
   .map((acc) => acc.movements)
   .flat()
