@@ -163,9 +163,8 @@ const calcDisplaySummary = function (acc) {
   labelSumInterest.textContent = `₱${interest}`;
 };
 
-
 // Logout Timer
-const startLogOutTimer = function() {
+const startLogOutTimer = function () {
   // Designed to start the timer right away.
   const tick = () => {
     // Set the minute and seconds
@@ -176,13 +175,13 @@ const startLogOutTimer = function() {
     labelTimer.textContent = `${min}:${sec}`;
 
     // When time hits 0, logout user
-    if(time === 0) {
+    if (time === 0) {
       clearInterval(timer);
       init();
-    };
+    }
 
     // For each call, deduct 1 seconds to the timer. (place this at the bottom to make sure it won't logout at 1 sec)
-    time--; 
+    time--;
   };
 
   // Initiate logout timer and set it to 1 minute.
@@ -195,9 +194,6 @@ const startLogOutTimer = function() {
 
   return timer;
 };
-
-
-
 
 // Login Functionality ==========================================================================================
 
@@ -262,9 +258,8 @@ btnLogin.addEventListener("click", function (e) {
     updateUI(currentAccount);
 
     // Initiate the timer and clears if there's an existing timer.
-    if(timer) clearInterval(timer);
+    if (timer) clearInterval(timer);
     timer = startLogOutTimer();
-
   } else {
     console.log(
       "You have entered an invalid User ID or Password.  Please try again!"
@@ -341,22 +336,21 @@ btnLoan.addEventListener("click", function (e) {
     amount > 0 &&
     currentAccount.movements.some((mov) => mov >= amount / 10)
   ) {
-
     // Create a delay for the posting.
     setTimeout(() => {
       // Add loanable amount to balance and update UI
-        currentAccount.movements.push(amount);
-        currentAccount.movDates.push(new Date().toISOString());
-        updateUI(currentAccount);
+      currentAccount.movements.push(amount);
+      currentAccount.movDates.push(new Date().toISOString());
+      updateUI(currentAccount);
 
-        console.log(`Congratulations, ${currentAccount.owner}.  Your loan for ₱${amount} was approved and is now deposited to your account.`);
+      console.log(
+        `Congratulations, ${currentAccount.owner}.  Your loan for ₱${amount} was approved and is now deposited to your account.`
+      );
     }, 5000);
 
-
-      // Clear Fields
-      inputLoanAmount.value = "";
-      inputLoanAmount.blur();
-
+    // Clear Fields
+    inputLoanAmount.value = "";
+    inputLoanAmount.blur();
   } else {
     alert(
       "Your loanable amount cannot be approved at this time. Please try again later."
@@ -367,8 +361,8 @@ btnLoan.addEventListener("click", function (e) {
     inputLoanAmount.blur();
   }
 
-    // Resets timer
-    resetTimer();
+  // Resets timer
+  resetTimer();
 });
 
 // Closing Acounts ==========================================================================================
@@ -406,7 +400,7 @@ logoutButton.addEventListener("click", init);
 function init() {
   containerApp.style.opacity = 0;
   labelWelcome.textContent = "Login to get started";
-};
+}
 
 // Getting the overall Balance of the account using map.
 const overAllBalance = accounts
@@ -478,16 +472,14 @@ function fakeLogin() {
   currentAccount = account1;
   updateUI(currentAccount);
   containerApp.style.opacity = 100;
-};
+}
 
 // fakeLogin();
 
 function resetTimer() {
   clearInterval(timer);
   timer = startLogOutTimer();
-};
-
-
+}
 
 
 /* To be finished problem:
@@ -496,8 +488,6 @@ function resetTimer() {
   3. Stopped at 20:05/28:31
 */
 
-
-
 // This will be a function that we'll implement soon. This will track if the user is currently hovering the mouse or doing something in general to the page.
 
 // function isActive() {
@@ -505,9 +495,3 @@ function resetTimer() {
 //   // freeze the timer and initiate it only when the user stops doing anything
 
 // }
-
-
-
-
-
-
