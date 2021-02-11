@@ -71,9 +71,6 @@ const account4 = {
 const accounts = [account1, account2, account3, account4];
 
 // Variables
-const loginBtn = document.querySelector(".login__btn");
-const username = document.querySelector(".login__input--user");
-const password = document.querySelector(".login__input--pin");
 const appContainer = document.querySelector(".app");
 const balSummary = document.querySelector(".balance__value");
 const welcomeMessage = document.querySelector(".welcome");
@@ -81,9 +78,16 @@ const incomeSum = document.querySelector(".summary__value--in");
 const debitSum = document.querySelector(".summary__value--out");
 const interestSum = document.querySelector(".summary__value--interest");
 const movContainer = document.querySelector(".movements");
+
+const username = document.querySelector(".login__input--user");
+const password = document.querySelector(".login__input--pin");
 const recipient = document.querySelector(".form__input--to");
 const xferAmount = document.querySelector(".form__input--amount");
+const loanAmount = document.querySelector(".form__input--loan-amount");
+
+const loginBtn = document.querySelector(".login__btn");
 const transferBtn = document.querySelector(".form__btn--transfer");
+const loanBtn = document.querySelector(".form__btn--loan");
 
 let currentAccount;
 
@@ -188,7 +192,7 @@ function displayMov(acc) {
   });
 }
 
-// Section: Transfer Money
+// Feature: Transfer Money
 
 // 1. Validate if transfer to account exists.
 transferBtn.addEventListener("click", function (e) {
@@ -217,3 +221,26 @@ transferBtn.addEventListener("click", function (e) {
   recipient.value = xferAmount.value = "";
   xferAmount.blur();
 });
+
+// Feature: Request Loan
+loanBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  const amount = +loanAmount.value;
+
+  if (
+    amount > 0 &&
+    currentAccount.movements.some((tran) => tran >= amount / 10)
+  ) {
+    currentAccount.movements.push(amount);
+    updateUI(currentAccount);
+
+    alert(`Congratulations, ${currentAccount.owner}.  Your $${amount} loan just got approved and has been deposited to your account.`)
+  } else {
+    console.log("Sorry but you are not qualified MTF!");
+  }
+
+  loanAmount.value = "";
+  loanAmount.blur();
+});
+
