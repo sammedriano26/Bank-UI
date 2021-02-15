@@ -84,10 +84,13 @@ const password = document.querySelector(".login__input--pin");
 const recipient = document.querySelector(".form__input--to");
 const xferAmount = document.querySelector(".form__input--amount");
 const loanAmount = document.querySelector(".form__input--loan-amount");
+const closeUser = document.querySelector(".form__input--user");
+const closeUserPin = document.querySelector(".form__input--pin");
 
 const loginBtn = document.querySelector(".login__btn");
 const transferBtn = document.querySelector(".form__btn--transfer");
 const loanBtn = document.querySelector(".form__btn--loan");
+const closeBtn = document.querySelector(".form__btn--close");
 
 let currentAccount;
 
@@ -235,7 +238,9 @@ loanBtn.addEventListener("click", function (e) {
     currentAccount.movements.push(amount);
     updateUI(currentAccount);
 
-    alert(`Congratulations, ${currentAccount.owner}.  Your $${amount} loan just got approved and has been deposited to your account.`)
+    alert(
+      `Congratulations, ${currentAccount.owner}.  Your $${amount} loan just got approved and has been deposited to your account.`
+    );
   } else {
     console.log("Sorry but you are not qualified MTF!");
   }
@@ -244,3 +249,35 @@ loanBtn.addEventListener("click", function (e) {
   loanAmount.blur();
 });
 
+// Feature: Close Account
+
+closeBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  // Locate the account in the accounts array
+  if (
+    closeUser.value === currentAccount.userID &&
+    +closeUserPin.value === currentAccount.pin
+  ) {
+    const toDelete = accounts.findIndex(
+      (acc) => acc.userID === closeUser.value
+    );
+
+    accounts.splice(toDelete, 1);
+    // console.log(accounts);
+
+    init();
+  } else {
+    alert(
+      "Sorry, either the Account User ID or Password you have entered is incorrect.  Please try again."
+    );
+  }
+
+  closeUser.value = closeUserPin.value = "";
+  closeUserPin.blur();
+});
+
+function init() {
+  appContainer.style.opacity = 0;
+  welcomeMessage.textContent = "Login to get started";
+}
