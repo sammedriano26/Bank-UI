@@ -235,12 +235,14 @@ loanBtn.addEventListener("click", function (e) {
     amount > 0 &&
     currentAccount.movements.some((tran) => tran >= amount / 10)
   ) {
-    currentAccount.movements.push(amount);
-    updateUI(currentAccount);
+    setTimeout(() => {
+      currentAccount.movements.push(amount);
+      updateUI(currentAccount);
 
-    alert(
-      `Congratulations, ${currentAccount.owner}.  Your $${amount} loan just got approved and has been deposited to your account.`
-    );
+      alert(
+        `Congratulations, ${currentAccount.owner}.  Your $${amount} loan just got approved and has been deposited to your account.`
+      );
+    }, 5000);
   } else {
     console.log("Sorry but you are not qualified MTF!");
   }
