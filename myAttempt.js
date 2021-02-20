@@ -92,6 +92,7 @@ const transferBtn = document.querySelector(".form__btn--transfer");
 const loanBtn = document.querySelector(".form__btn--loan");
 const closeBtn = document.querySelector(".form__btn--close");
 const sortBtn = document.querySelector(".btn--sort");
+const logOutBtn = document.querySelector(".logout");
 
 let currentAccount;
 
@@ -296,4 +297,11 @@ sortBtn.addEventListener("click", function (e) {
   displayMov(currentAccount, !sorted);
 
   sorted = !sorted;
+});
+
+// Function: Logout
+logOutBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  init();
 });
