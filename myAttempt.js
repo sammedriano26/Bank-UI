@@ -91,6 +91,7 @@ const loginBtn = document.querySelector(".login__btn");
 const transferBtn = document.querySelector(".form__btn--transfer");
 const loanBtn = document.querySelector(".form__btn--loan");
 const closeBtn = document.querySelector(".form__btn--close");
+const sortBtn = document.querySelector(".btn--sort");
 
 let currentAccount;
 
@@ -176,10 +177,12 @@ function calcSummary(acc) {
 }
 
 // Stopped at this section.  To be continued.
-function displayMov(acc) {
+function displayMov(acc, sort = false) {
   movContainer.innerHTML = "";
 
-  const movs = acc.movements;
+  const movs = sort
+    ? acc.movements.slice().sort((a, b) => a - b)
+    : acc.movements;
 
   movs.forEach((trans, i) => {
     const type = trans > 0 ? "deposit" : "withdrawal";
@@ -283,3 +286,14 @@ function init() {
   appContainer.style.opacity = 0;
   welcomeMessage.textContent = "Login to get started";
 }
+
+// Function: Sort Transactions
+let sorted = false;
+
+sortBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  displayMov(currentAccount, !sorted);
+
+  sorted = !sorted;
+});
